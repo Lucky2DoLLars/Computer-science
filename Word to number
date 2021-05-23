@@ -1,0 +1,27 @@
+word_to_num = function(word){
+  wsplit = strsplit(word, " ")[[1]]
+  operators = list(plus = "+", minus = "-", multiplication = "*", division = "/")
+  
+  if( sum(wsplit %in% names(operators)) == 0 ){
+    out = word_to_num1000(word)
+    return(out)
+  }
+  
+  if( sum(wsplit %in% names(operators)) != 0 ){
+    oper_idx = which(wsplit %in% names(operators))
+    oper = operators[wsplit[oper_idx]]
+    wsplit_2 = strsplit(word, paste("",names(oper),""))[[1]]
+  }
+  
+  num = rep(0, length(wsplit_2))
+  for(i in 1:length(wsplit_2)){
+    num[i] = word_to_num1000(wsplit_2[i])[[2]]
+  }
+  
+  out = Reduce(oper[[1]], num)
+  
+  return(list(word, out))
+}
+
+word = 'sixty nine minus seventy four'
+word_to_num(word)
